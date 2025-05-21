@@ -30,4 +30,4 @@ workflows:
           echo "Android SDK installed at: $ANDROID_HOME"
           ls -la "$ANDROID_HOME/cmdline-tools/latest/bin"
 
-      - name: Install
+ 
