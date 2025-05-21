@@ -7,8 +7,8 @@ workflows:
         - android_config  # (اختياري) إذا كان لديك متغيرات مثل Keystore
       vars:
         JAVA_HOME: "/usr/lib/jvm/java-17-amazon-corretto"  # تحديد Java 17
-      android_sdk:  # (اختياري) تحديد إصدار Android SDK
-        - "platforms;android-34"
+      android_sdk: "platforms;android-34" # (اختياري) تحديد إصدار Android SDK
+        - 
         - "build-tools;34.0.0"
         - "cmdline-tools;latest"
     scripts:
