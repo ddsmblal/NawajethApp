@@ -4,8 +4,6 @@ workflows:
     max_build_duration: 120
     environment:
       groups: []
-      vars:
-        ANDROID_HOME: "$HOME/android-sdk"
     scripts:
       - name: Set up Java
         script: |
@@ -13,30 +11,32 @@ workflows:
           echo "JAVA_HOME set to $JAVA_HOME"
           java -version
 
-      - name: Install Android Command Line Tools
+      - name: Install Android SDK
         script: |
-          mkdir -p $ANDROID_HOME/cmdline-tools/latest
-          cd $ANDROID_HOME/cmdline-tools/latest
+          # Set up directories
+          export ANDROID_HOME="$HOME/android-sdk"
+          mkdir -p "$ANDROID_HOME"
+          
+          # Download and extract command line tools
+          cd "$ANDROID_HOME"
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
           unzip -q commandlinetools-linux-9477386_latest.zip
           rm commandlinetools-linux-9477386_latest.zip
-          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+          
+          # Move contents to correct location (critical step)
+          mkdir -p cmdline-tools/latest
+          mv cmdline-tools/* cmdline-tools/latest/
+          rm -rf cmdline-tools/NOTICE.txt cmdline-tools/source.properties
+          
+          # Set PATH correctly
+          export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools"
+          echo "PATH updated: $PATH"
 
       - name: Install SDK Packages
         script: |
+          # Verify sdkmanager is accessible
+          which sdkmanager || { echo "sdkmanager not found!"; exit 1; }
+          
+          # Accept licenses and install packages
           yes | sdkmanager --licenses
-          sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
-          sdkmanager --list
-
-      - name: Verify Installation
-        script: |
-          echo "Android tools installed at:"
-          ls -la $ANDROID_HOME
-          which sdkmanager
-          sdkmanager --version
-
-      - name: Build APK
-        script: |
-          ./gradlew assembleDebug
-    artifacts:
-      - app/build/outputs/**/*.apk
+          sdkmanager "platforms;android-34" "
