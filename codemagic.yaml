@@ -1,23 +1,34 @@
 workflows:
   android-workflow:
     name: Android Build
-    max_build_duration: 60
+    max_build_duration: 120
     environment:
-      groups: []  # يمكنك إضافة مجموعات متغيرات هنا إذا لزم الأمر
+      groups: []
+      vars:
+        ANDROID_HOME: "/usr/local/android-sdk"
     scripts:
       - name: Set up Java
         script: |
           export JAVA_HOME=/usr/lib/jvm/default-jvm
           echo "JAVA_HOME set to $JAVA_HOME"
           java -version
-          
-      - name: Install Android SDK
+
+      - name: Install Android Command Line Tools
         script: |
-          yes | sdkmanager --licenses
-          sdkmanager "platforms;android-34" "build-tools;34.0.0"
-          
+          mkdir -p $ANDROID_HOME
+          cd $ANDROID_HOME
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+          unzip -q commandlinetools-linux-9477386_latest.zip
+          rm commandlinetools-linux-9477386_latest.zip
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/bin
+
+      - name: Install SDK Packages
+        script: |
+          yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --licenses
+          $ANDROID_HOME/cmdline-tools/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools" "emulator"
+
       - name: Build APK
         script: |
           ./gradlew assembleDebug
     artifacts:
-      - app/build/outputs//*.apk
+      - app/build/outputs/**/*.apk
