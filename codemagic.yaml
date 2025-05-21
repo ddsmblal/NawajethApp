@@ -5,7 +5,7 @@ workflows:
     environment:
       groups: []
       vars:
-        ANDROID_HOME: "/usr/local/android-sdk"
+        ANDROID_HOME: "$HOME/android-sdk"
     scripts:
       - name: Set up Java
         script: |
@@ -15,17 +15,25 @@ workflows:
 
       - name: Install Android Command Line Tools
         script: |
-          mkdir -p $ANDROID_HOME
-          cd $ANDROID_HOME
+          mkdir -p $ANDROID_HOME/cmdline-tools/latest
+          cd $ANDROID_HOME/cmdline-tools/latest
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
           unzip -q commandlinetools-linux-9477386_latest.zip
           rm commandlinetools-linux-9477386_latest.zip
-          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/bin
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
       - name: Install SDK Packages
         script: |
-          yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --licenses
-          $ANDROID_HOME/cmdline-tools/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools" "emulator"
+          yes | sdkmanager --licenses
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+          sdkmanager --list
+
+      - name: Verify Installation
+        script: |
+          echo "Android tools installed at:"
+          ls -la $ANDROID_HOME
+          which sdkmanager
+          sdkmanager --version
 
       - name: Build APK
         script: |
