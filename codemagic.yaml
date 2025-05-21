@@ -9,13 +9,17 @@ workflows:
           mkdir -p $ANDROID_SDK_ROOT/cmdline-tools/latest
           cd $ANDROID_SDK_ROOT/cmdline-tools/latest
           curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-          unzip sdk.zip
+          unzip sdk.zip -d tmp
           rm sdk.zip
+          mv tmp/cmdline-tools ./cmdline-tools
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/cmdline-tools/bin/sdkmanager --licenses
           $ANDROID_SDK_ROOT/cmdline-tools/latest/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-33" "build-tools;34.0.0"
-      - name: "Grant Gradle permissions"
+
+      - name: "Grant Gradle Permissions"
         script: chmod +x ./gradlew
+
       - name: "Build APK"
         script: ./gradlew assembleRelease
+
     artifacts:
       - app/build/outputs/apk/release/app-release.apk
