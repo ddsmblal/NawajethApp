@@ -3,13 +3,19 @@ workflows:
     name: Android Build
     max_build_duration: 60
     environment:
-      groups: []  # أضف هنا أي مجموعات متغيرات تحتاجها
-      vars:
-        JAVA_HOME: "/usr/lib/jvm/java-17-openjdk-amd64"  # المسار الصحيح لـ Java 17 في Codemagic
+      groups: []  # يمكنك إضافة مجموعات متغيرات هنا إذا لزم الأمر
     scripts:
+      - name: Set up Java
+        script: |
+          export JAVA_HOME=/usr/lib/jvm/default-jvm
+          echo "JAVA_HOME set to $JAVA_HOME"
+          java -version
+          
       - name: Install Android SDK
         script: |
+          yes | sdkmanager --licenses
           sdkmanager "platforms;android-34" "build-tools;34.0.0"
+          
       - name: Build APK
         script: |
           ./gradlew assembleDebug
