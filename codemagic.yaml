@@ -13,16 +13,14 @@ workflows:
           echo "JAVA_HOME set to $JAVA_HOME"
           java -version
 
-     - name: Install Android Tools
-  script: |
-    mkdir -p ~/android-sdk
-    cd ~/android-sdk
-    wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-    unzip commandlinetools-linux-9477386_latest.zip
-    rm commandlinetools-linux-9477386_latest.zip
-    export PATH=$PATH:$(pwd)/cmdline-tools/latest/bin
-    yes | sdkmanager --licenses
-    sdkmanager "platforms;android-34" "build-tools;34.0.0"
+      - name: Install Android Command Line Tools
+        script: |
+          mkdir -p $ANDROID_HOME/cmdline-tools/latest
+          cd $ANDROID_HOME/cmdline-tools/latest
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+          unzip -q commandlinetools-linux-9477386_latest.zip
+          rm commandlinetools-linux-9477386_latest.zip
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
       - name: Install SDK Packages
         script: |
