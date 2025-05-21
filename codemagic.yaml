@@ -1,27 +1,17 @@
 workflows:
   android-workflow:
-    name: Android Build Workflow
-    max_build_duration: 60  # زيادة الوقت لضمان اكتمال البناء
+    name: Android Build
+    max_build_duration: 60
     environment:
-      groups:
-        - android_config  # (اختياري) إذا كان لديك متغيرات مثل Keystore
+      groups: []  # أضف هنا أي مجموعات متغيرات تحتاجها
       vars:
-        JAVA_HOME: "/usr/lib/jvm/java-17-amazon-corretto"  # تحديد Java 17
-     
+        JAVA_HOME: "/usr/lib/jvm/java-17-openjdk-amd64"  # المسار الصحيح لـ Java 17 في Codemagic
     scripts:
-      - name: Set up Gradle
+      - name: Install Android SDK
         script: |
-          chmod +x gradlew
-      - name: Build Debug APK
+          sdkmanager "platforms;android-34" "build-tools;34.0.0"
+      - name: Build APK
         script: |
           ./gradlew assembleDebug
-      - name: Build Release APK (اختياري)
-        script: |
-          ./gradlew assembleRelease
     artifacts:
-      - app/build/outputs//*.apk  # يشمل جميع ملفات APK
-      - app/build/outputs//mapping.txt  # (اختياري) لـ ProGuard/R8
-    publishing:
-      email:
-        recipients:
-          - dds.m.blal@gmail.com  # إرسال إشعار بالبريد
+      - app/build/outputs//*.apk
