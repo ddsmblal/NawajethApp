@@ -2,7 +2,7 @@ workflows:
   android-native-apk:
     name: Build Android Native APK
     environment:
-      java: 11  # أو 17 إذا كنت تستخدم إصدار حديث من Gradle
+      java: 17
     scripts:
       - name: "Install Android Command Line Tools"
         script: |
