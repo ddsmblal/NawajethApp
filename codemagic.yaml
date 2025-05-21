@@ -1,12 +1,30 @@
 workflows:
-  build-android:
-    name: Build Android APK
-    max_build_duration: 15
+  android-workflow:
+    name: Android Build Workflow
+    max_build_duration: 60  # زيادة الوقت لضمان اكتمال البناء
     environment:
-      android: true
-      java: 17
+      groups:
+        - android_config  # (اختياري) إذا كان لديك متغيرات مثل Keystore
+      vars:
+        JAVA_HOME: "/usr/lib/jvm/java-17-amazon-corretto"  # تحديد Java 17
+      android_sdk:  # (اختياري) تحديد إصدار Android SDK
+        - "platforms;android-34"
+        - "build-tools;34.0.0"
+        - "cmdline-tools;latest"
     scripts:
-      - name: Build APK
-        script: ./gradlew assembleDebug
+      - name: Set up Gradle
+        script: |
+          chmod +x gradlew
+      - name: Build Debug APK
+        script: |
+          ./gradlew assembleDebug
+      - name: Build Release APK (اختياري)
+        script: |
+          ./gradlew assembleRelease
     artifacts:
-      - app/build/outputs//*.apk
+      - app/build/outputs//*.apk  # يشمل جميع ملفات APK
+      - app/build/outputs//mapping.txt  # (اختياري) لـ ProGuard/R8
+    publishing:
+      email:
+        recipients:
+          - dds.m.blal@gmail.com  # إرسال إشعار بالبريد
