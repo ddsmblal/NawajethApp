@@ -13,30 +13,21 @@ workflows:
 
       - name: Install Android SDK
         script: |
-          # Set up directories
+          # Set environment variables
           export ANDROID_HOME="$HOME/android-sdk"
-          mkdir -p "$ANDROID_HOME"
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+          
+          # Create directory structure
+          mkdir -p "$ANDROID_HOME/cmdline-tools/latest"
           
           # Download and extract command line tools
           cd "$ANDROID_HOME"
-          wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-          unzip -q commandlinetools-linux-9477386_latest.zip
-          rm commandlinetools-linux-9477386_latest.zip
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
+          unzip -q cmdline-tools.zip -d "$ANDROID_HOME/cmdline-tools/latest"
+          rm cmdline-tools.zip
           
-          # Move contents to correct location (critical step)
-          mkdir -p cmdline-tools/latest
-          mv cmdline-tools/* cmdline-tools/latest/
-          rm -rf cmdline-tools/NOTICE.txt cmdline-tools/source.properties
-          
-          # Set PATH correctly
-          export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools"
-          echo "PATH updated: $PATH"
+          # Verify installation
+          echo "Android SDK installed at: $ANDROID_HOME"
+          ls -la "$ANDROID_HOME/cmdline-tools/latest/bin"
 
-      - name: Install SDK Packages
-        script: |
-          # Verify sdkmanager is accessible
-          which sdkmanager || { echo "sdkmanager not found!"; exit 1; }
-          
-          # Accept licenses and install packages
-          yes | sdkmanager --licenses
-          sdkmanager "platforms;android-34" "
+      - name: Install
