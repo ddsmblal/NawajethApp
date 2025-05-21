@@ -1,4 +1,19 @@
-- name: Install Android Tools
+workflows:
+  android-workflow:
+    name: Android Build
+    max_build_duration: 120
+    environment:
+      groups: []
+      vars:
+        ANDROID_HOME: "$HOME/android-sdk"
+    scripts:
+      - name: Set up Java
+        script: |
+          export JAVA_HOME=/usr/lib/jvm/default-jvm
+          echo "JAVA_HOME set to $JAVA_HOME"
+          java -version
+
+     - name: Install Android Tools
   script: |
     mkdir -p ~/android-sdk
     cd ~/android-sdk
@@ -8,3 +23,22 @@
     export PATH=$PATH:$(pwd)/cmdline-tools/latest/bin
     yes | sdkmanager --licenses
     sdkmanager "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Install SDK Packages
+        script: |
+          yes | sdkmanager --licenses
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+          sdkmanager --list
+
+      - name: Verify Installation
+        script: |
+          echo "Android tools installed at:"
+          ls -la $ANDROID_HOME
+          which sdkmanager
+          sdkmanager --version
+
+      - name: Build APK
+        script: |
+          ./gradlew assembleDebug
+    artifacts:
+      - app/build/outputs/**/*.apk
