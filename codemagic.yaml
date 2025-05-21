@@ -2,7 +2,8 @@ workflows:
   android-native-apk:
     name: Build Android Native APK
     environment:
-      android: true
+      vars:
+        JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
     scripts:
       - name: "Install Android Command Line Tools"
         script: |
