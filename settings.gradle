@@ -1,0 +1,12 @@
+rootProject.name = "Nawajeth"
+
+include ':app'
+include ':core'
+include ':data'
+include ':domain'
+include ':features:patients'
+include ':features:dentalchart'
+include ':features:dentalworks'
+include ':features:financial'
+include ':features:reports'
+include ':features:settings'

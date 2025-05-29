@@ -1,0 +1,8 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.nawajeth.features.settings" >
+4
+5    <uses-sdk android:minSdkVersion="23" />
+5-->C:\Users\mapbl\Desktop\nawajeth_android_project_updated\nawajeth_android_project\features\settings\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17004672304059933765.xml
+6
+7</manifest>

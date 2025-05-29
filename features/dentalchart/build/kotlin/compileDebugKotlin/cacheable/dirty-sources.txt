@@ -1,0 +1,6 @@
+C:\Users\mapbl\Desktop\nawajeth_android_project_updated\nawajeth_android_project\features\dentalchart\src\main\java\com\example\nawajeth\features\dentalchart\domain\repository\DentalChartRepository.kt
+C:\Users\mapbl\Desktop\nawajeth_android_project_updated\nawajeth_android_project\features\dentalchart\src\main\java\com\example\nawajeth\features\dentalchart\presentation\components\DentalChartCanvas.kt
+C:\Users\mapbl\Desktop\nawajeth_android_project_updated\nawajeth_android_project\features\dentalchart\src\main\java\com\example\nawajeth\features\dentalchart\presentation\viewmodel\DentalChartViewModel.kt
+C:\Users\mapbl\Desktop\nawajeth_android_project_updated\nawajeth_android_project\features\dentalchart\src\main\java\com\example\nawajeth\features\dentalchart\domain\model\DentalSymbol.kt
+C:\Users\mapbl\Desktop\nawajeth_android_project_updated\nawajeth_android_project\features\dentalchart\src\main\java\com\example\nawajeth\features\dentalchart\presentation\screens\DentalChartScreen.kt
+C:\Users\mapbl\Desktop\nawajeth_android_project_updated\nawajeth_android_project\features\dentalchart\src\main\java\com\example\nawajeth\features\dentalchart\domain\model\ToothCondition.kt
